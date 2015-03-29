@@ -1,0 +1,39 @@
+****** BASIC CONTENT ******
+
+- Views that can be added to the screen -
+	* - Button (setText, setWidth, setHeight)
+	* - TextView (setText, setwidth, setHeight)
+	- ScrollView (add item, setWidth, setHeight)
+
+- Classes -
+	* - ViewDragListener (This is the listener for the main view that holds all the child views. It will notify of all the drag events)
+	- Database
+	* - Transformer (Need a class to retrieve the information (position, size, color, contents...) of all the views and convert it into something that can be stored in the data base)
+	* - EditView (The screen where you can edit your app)
+	* - ShowView (The screen where you can use your app)
+	- FindApp (A screen where you can find other peoples apps)
+	- ViewOptions (A class that will contain all the opotions for each view)
+
+- Features -
+	- Add view
+	- Move view
+	- Set view atributes (text, size, color, items held...)
+
+
+
+****** SPECIFIC NOTES *******
+
+- Sizing a view -
+	- Maybe make it so if you touch the view on the bottom right corner you go into resize mode and if you drag your finger away from the top let corner the view grows
+	and if you move towards the top left corner the view shrinks in the corrisponding direction.
+
+- Adding a view -
+	- At the top of the screen there should be spinners that contain a list of the view that can be added. They will just be text and a image of the view. When a view has been 
+	selected it will be added as the first open position closes to the top left corner.
+
+- Changing other atributes on a view -
+	- At the top of the screen there will be a spinner that contains all the options currently selected view (You can select a view by tapping on it)
+
+- Selected view -
+	- Selected view should be outlinde with a blue glow so the user can tell what view is selected. Maybe put the name of the view at the top?
+
