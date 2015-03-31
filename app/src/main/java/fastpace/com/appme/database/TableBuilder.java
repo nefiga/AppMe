@@ -6,6 +6,7 @@ public class TableBuilder {
 
     public static final String ID = "_id";
     public static final String UUID = "uuid";
+    public static final String APP_UUID = "app_uuid";
 
     public static final String WHERE_ID_EQUALS = ID + "=?";
 
@@ -29,6 +30,10 @@ public class TableBuilder {
         createString.append(UUID);
         createString.append(SPACE);
         createString.append(DB_TEXT);
+        createString.append(COMMA);
+        createString.append(APP_UUID);
+        createString.append(DB_TEXT);
+        createString.append(SPACE);
         createString.append(COMMA);
 
         return tableName;

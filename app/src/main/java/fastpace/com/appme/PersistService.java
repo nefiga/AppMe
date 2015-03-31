@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import fastpace.com.appme.database.ButtonTable;
+import fastpace.com.appme.database.Provider;
 import fastpace.com.appme.model.AppMeButton;
 
 public class PersistService extends Service {
@@ -28,7 +29,7 @@ public class PersistService extends Service {
 
         AppMeButton button = (AppMeButton) extras.get(ButtonTable.TABLE_NAME);
 
-
+        getContentResolver().insert(Provider.BUTTON_CONTENT_URI, button.getContentValues());
     }
 
     @Override

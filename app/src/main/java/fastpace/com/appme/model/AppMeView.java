@@ -1,6 +1,8 @@
 package fastpace.com.appme.model;
 
-public class AppMeView {
+import java.io.Serializable;
+
+public class AppMeView implements Serializable {
 
     public static final int BUTTON =  0;
     public static final int TEXT_VIEW = 1;
