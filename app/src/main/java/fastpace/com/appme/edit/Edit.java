@@ -1,12 +1,24 @@
 package fastpace.com.appme.edit;
 
-import android.content.Context;
+import java.util.ArrayList;
+
+import fastpace.com.appme.action.Action;
 
 public class Edit {
-    private final int MENU_TIMER = 5000;
+    private static final int ACTION_LIMIT = 40;
 
-    private boolean mBottomMenuOpen;
-    private BottomActionBar mBottomActionBar;
+    private static ArrayList<Action> mActions;
 
-    private Context mContext;
+    public Edit() {
+        mActions = new ArrayList<>();
+    }
+
+    public void undo() {
+        mActions.get(mActions.size() -1).undo();
+    }
+
+    public static void addAction(Action action) {
+        if (mActions.size() <= ACTION_LIMIT)
+            action.setList(mActions);
+    }
 }

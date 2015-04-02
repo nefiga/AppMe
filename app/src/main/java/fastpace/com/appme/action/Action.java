@@ -1,7 +1,5 @@
 package fastpace.com.appme.action;
 
-import android.view.View;
-
 import java.util.ArrayList;
 
 public abstract class Action {
@@ -15,42 +13,43 @@ public abstract class Action {
     protected int mActionType;
     private boolean mLocked;
 
-    protected String mText;
-    protected String mPosition;
+    protected String mOldText;
+    protected String mOldPosition;
 
-    protected int mDrawable;
+    protected int mOldDrawable;
 
-    /**
-     * When a Action is created it will  automatically add itself to the list passed in the constructor.
-     * The Action will also automatically remove itself from the list when undo is called on the Action.
-     */
-    public Action(ArrayList<Action> actionList) {
+    public void setList(ArrayList<Action> actionList) {
+        actionList.add(this);
         mActionList = actionList;
-        mActionList.add(this);
     }
 
-    public abstract void create(View view);
+    public void setActionCreate() {
+        if (!mLocked) {
+            mActionType = CREATE;
+            mLocked = true;
+        }
+    }
 
-    public void changeText(String text) {
+    public void setActionChangeText(String text) {
         if (!mLocked) {
             mActionType = CHANGE_TEXT;
-            mText = text;
+            mOldText = text;
             mLocked = true;
         }
     }
 
-    public void changePosition(String position) {
+    public void setActionChangePosition(String position) {
         if (!mLocked) {
             mActionType = CHANGE_POSITION;
-            mPosition = position;
+            mOldPosition = position;
             mLocked = true;
         }
     }
 
-    public void channgeDrawable(int drawable) {
+    public void setActionChanngeDrawable(int drawable) {
         if (!mLocked) {
             mActionType =  CHANGE_DRAWABLE;
-            mDrawable = drawable;
+            mOldDrawable = drawable;
             mLocked = true;
         }
     }

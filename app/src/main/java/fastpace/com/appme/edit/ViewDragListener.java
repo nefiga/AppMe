@@ -2,6 +2,11 @@ package fastpace.com.appme.edit;
 
 import android.view.DragEvent;
 import android.view.View;
+import android.widget.Button;
+
+import fastpace.com.appme.action.Action;
+import fastpace.com.appme.action.ButtonAction;
+import fastpace.com.appme.model.Position;
 
 public class ViewDragListener implements View.OnDragListener{
 
@@ -19,7 +24,6 @@ public class ViewDragListener implements View.OnDragListener{
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
                 break;
-
             case DragEvent.ACTION_DRAG_EXITED:
 
                 break;
@@ -27,6 +31,12 @@ public class ViewDragListener implements View.OnDragListener{
 
                 break;
             case DragEvent.ACTION_DRAG_STARTED:
+                View view = (View) event.getLocalState();
+                if (view instanceof Button) {
+                    Action buttonAction = new ButtonAction((Button) view);
+                    buttonAction.setActionChangePosition(Position.getPositionString(view.getX(), view.getY(), view.getWidth(), view.getHeight()));
+                    Edit.addAction(buttonAction);
+                }
                 break;
         }
 

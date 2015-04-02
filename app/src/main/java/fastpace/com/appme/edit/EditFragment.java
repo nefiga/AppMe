@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 import fastpace.com.appme.R;
 import fastpace.com.appme.ViewSpinner;
+import fastpace.com.appme.model.AppMeButton;
 
 public class EditFragment extends Fragment {
     private final int MENU_TIMER = 5000;
@@ -30,6 +33,7 @@ public class EditFragment extends Fragment {
 
     private Drawable[] mViewImages;
 
+    Edit mEdit;
     ViewMaker mViewMaker;
 
     @Override
@@ -39,6 +43,7 @@ public class EditFragment extends Fragment {
         mViewImages = new Drawable[]{getDrawable(R.drawable.button), getDrawable(R.drawable.text_view), getDrawable(R.drawable.edit_text),
                 getDrawable(R.drawable.image_view), getDrawable(R.drawable.spinner), getDrawable(R.drawable.list_view)};
         mViewMaker = new ViewMaker(getActivity());
+        mEdit = new Edit();
     }
 
     @Override
@@ -66,11 +71,24 @@ public class EditFragment extends Fragment {
         return mRootView;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
     public void setListeners() {
         mAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAppContainer.addView(mViewMaker.createView(mViewSpinner.getSelectedItemPosition()));
+            }
+        });
+
+        mUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEdit.undo();
             }
         });
 
@@ -108,6 +126,10 @@ public class EditFragment extends Fragment {
                 }
             }
         }, MENU_TIMER);
+    }
+
+    public void addButtons(ArrayList<AppMeButton> buttons) {
+        //TODO need a good way to load views from database. Not really sure this is that good of a way
     }
 
     private Drawable getDrawable(int id) {

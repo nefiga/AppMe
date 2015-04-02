@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import fastpace.com.appme.action.Action;
+import fastpace.com.appme.action.ButtonAction;
 import fastpace.com.appme.model.AppMeView;
 import fastpace.com.appme.utils.Utils;
 
@@ -46,6 +48,10 @@ public class ViewMaker {
         button.setText("Button");
         button.setId(Utils.getNextId());
         setOnLongClickListener(button);
+
+        Action buttonAction = new ButtonAction(button);
+        buttonAction.setActionCreate();
+        Edit.addAction(buttonAction);
 
         return button;
     }

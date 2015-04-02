@@ -2,6 +2,7 @@ package fastpace.com.appme;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,7 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
+import fastpace.com.appme.database.ButtonTable;
+import fastpace.com.appme.database.Provider;
 import fastpace.com.appme.edit.EditFragment;
+import fastpace.com.appme.model.AppMeButton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -56,9 +62,29 @@ public class MainActivity extends ActionBarActivity {
                 FragmentManager manager = getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 EditFragment fragment = new EditFragment();
+                fragment.addButtons(getButtons());
                 transaction.replace(android.R.id.content, fragment);
                 transaction.commit();
             }
         });
+    }
+
+    private ArrayList<AppMeButton> getButtons() {
+        ArrayList<AppMeButton> buttons = new ArrayList<>();
+        Cursor cursor = getContentResolver().query(Provider.BUTTON_CONTENT_URI, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                int parent = cursor.getInt(cursor.getColumnIndex(ButtonTable.PARENT));
+                String position = cursor.getString(cursor.getColumnIndex(ButtonTable.POSITION));
+                String text = cursor.getString(cursor.getColumnIndex(ButtonTable.TEXT));
+                AppMeButton button = new AppMeButton(parent, position);
+                button.setText(text);
+                buttons.add(button);
+                cursor.moveToNext();
+            }
+
+        }
+        cursor.close();
+        return buttons;
     }
 }
