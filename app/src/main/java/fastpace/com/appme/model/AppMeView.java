@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class AppMeView implements Serializable {
 
-    public static final int BUTTON =  0;
+    public static final int BUTTON = 0;
     public static final int TEXT_VIEW = 1;
     public static final int EDIT_TEXT = 2;
     public static final int IMAGE_VIEW = 3;
@@ -13,6 +13,7 @@ public class AppMeView implements Serializable {
 
     public static final int NULL_VALUE = 0;
 
+    protected int mId;
     protected int mType;
     protected int mParent;
     protected int mX;
@@ -22,14 +23,16 @@ public class AppMeView implements Serializable {
 
     protected String mPosition;
 
-    public AppMeView(int parent, int type, String position) {
+    public AppMeView(int parent, int id, int type, String position) {
         mParent = parent;
+        mId = id;
         mType = type;
         setPosition(position);
     }
 
-    public AppMeView(int parent, int type, int x, int y, int width, int height) {
+    public AppMeView(int parent, int id, int type, int x, int y, int width, int height) {
         mParent = parent;
+        mId = id;
         mType = type;
         setPosition(x, y, width, height);
     }
@@ -58,6 +61,10 @@ public class AppMeView implements Serializable {
 
     public int getParent() {
         return mParent;
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public int getType() {

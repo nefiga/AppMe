@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fastpace.com.appme" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,10 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
-            android:authorities="fastpace.com.appme.database.Provider"
-            android:name="fastpace.com.appme.database.Provider">
-            </provider>
+            android:name=".database.Provider"
+            android:authorities="fastpace.com.appme.database.Provider" >
+        </provider>
     </application>
 
 </manifest>

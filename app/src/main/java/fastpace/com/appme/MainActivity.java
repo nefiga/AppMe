@@ -21,6 +21,7 @@ import fastpace.com.appme.model.AppMeButton;
 public class MainActivity extends ActionBarActivity {
 
     Button mEditScreen;
+    Button mViewApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
 
         mEditScreen = (Button) findViewById(R.id.edit_app);
+        mViewApp = (Button) findViewById(R.id.view_app);
 
         setListeners();
 
@@ -75,9 +77,10 @@ public class MainActivity extends ActionBarActivity {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 int parent = cursor.getInt(cursor.getColumnIndex(ButtonTable.PARENT));
+                int viewId = cursor.getInt(cursor.getColumnIndex(ButtonTable.VIEW_ID));
                 String position = cursor.getString(cursor.getColumnIndex(ButtonTable.POSITION));
                 String text = cursor.getString(cursor.getColumnIndex(ButtonTable.TEXT));
-                AppMeButton button = new AppMeButton(parent, position);
+                AppMeButton button = new AppMeButton(parent, viewId, position);
                 button.setText(text);
                 buttons.add(button);
                 cursor.moveToNext();

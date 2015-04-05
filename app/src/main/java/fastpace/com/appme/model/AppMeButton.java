@@ -10,12 +10,12 @@ public class AppMeButton extends AppMeView{
 
     private String mText;
 
-    public AppMeButton(int parent, String position) {
-        super(parent, AppMeView.BUTTON, position);
+    public AppMeButton(int parent, int id, String position) {
+        super(parent, id, AppMeView.BUTTON, position);
     }
 
-    public AppMeButton(int parent, int x, int y, int width, int height) {
-        super(parent, AppMeView.BUTTON, x, y, width, height);
+    public AppMeButton(int parent, int id, int x, int y, int width, int height) {
+        super(parent, id, AppMeView.BUTTON, x, y, width, height);
     }
 
     public void setDrawable(int drawable) {
@@ -37,7 +37,9 @@ public class AppMeButton extends AppMeView{
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
 
+        //TODO Needs the apps uuid
         contentValues.put(ButtonTable.PARENT, mParent);
+        contentValues.put(ButtonTable.VIEW_ID, mId);
         contentValues.put(ButtonTable.VIEW_TYPE, mType);
         contentValues.put(ButtonTable.POSITION, mPosition);
 

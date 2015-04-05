@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import fastpace.com.appme.R;
 import fastpace.com.appme.ViewSpinner;
 import fastpace.com.appme.model.AppMeButton;
+import fastpace.com.appme.utils.Utils;
 
 public class EditFragment extends Fragment {
     private final int MENU_TIMER = 5000;
@@ -62,6 +63,7 @@ public class EditFragment extends Fragment {
         mUndo = (Button) mRootView.findViewById(R.id.undo);
 
         mAppContainer = (LinearLayout) mRootView.findViewById(R.id.app_container);
+        mAppContainer.setId(Utils.VIEW_HOLDER_ID);
         mAppContainer.setOnDragListener(new ViewDragListener());
 
         mViewSpinner.setAdapter(new ViewSpinner(getActivity(), R.layout.view_spinner, mViewImages));

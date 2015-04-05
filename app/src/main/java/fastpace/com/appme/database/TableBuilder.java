@@ -1,8 +1,11 @@
 package fastpace.com.appme.database;
 
+import java.util.ArrayList;
+
 public class TableBuilder {
     public static final String DB_INTEGER = "INTEGER";
     public static final String DB_TEXT = "TEXT";
+    public static final String DB_BOOLEAN = "BOOLEAN";
 
     public static final String ID = "_id";
     public static final String UUID = "uuid";
@@ -18,8 +21,11 @@ public class TableBuilder {
 
     private static String currentTable;
 
+    private static ArrayList<String> columns;
+
     public static String beginCreate(String tableName) {
         createString = new StringBuilder();
+        columns = new ArrayList<>();
         currentTable = tableName;
 
         createString.append("CREATE TABLE ");
@@ -36,6 +42,10 @@ public class TableBuilder {
         createString.append(SPACE);
         createString.append(COMMA);
 
+        columns.add(ID);
+        columns.add(UUID);
+        columns.add(APP_UUID);
+
         return tableName;
     }
 
@@ -44,6 +54,8 @@ public class TableBuilder {
         createString.append(SPACE);
         createString.append(type);
         createString.append(COMMA);
+
+        columns.add(columnName);
 
         return columnName;
     }
@@ -54,10 +66,17 @@ public class TableBuilder {
         createString.append(type);
         createString.append(")");
 
+        columns.add(columnName);
+
         return columnName;
     }
 
     public static String retrieveCreateString() {
         return createString.toString();
+    }
+
+    public static String[] retrieveAllColumnsArray() {
+        String[] allColumns = new String[1];
+        return columns.toArray(allColumns);
     }
 }
