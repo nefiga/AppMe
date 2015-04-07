@@ -9,7 +9,7 @@
 	* - ViewDragListener (This is the listener for the main view that holds all the child views. It will notify of all the drag events)
 	- Database
 	* - Transformer (Need a class to retrieve the information (position, size, color, contents...) of all the views and convert it into something that can be stored in the data base)
-	* - EditView (The screen where you can edit your app)
+	* - EditView (The screen where you can editFragmentData your app)
 	* - ShowView (The screen where you can use your app)
 	- FindApp (A screen where you can find other peoples apps)
 	- ViewOptions (A class that will contain all the opotions for each view)

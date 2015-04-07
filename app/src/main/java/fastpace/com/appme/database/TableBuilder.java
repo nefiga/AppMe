@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TableBuilder {
     public static final String DB_INTEGER = "INTEGER";
     public static final String DB_TEXT = "TEXT";
-    public static final String DB_BOOLEAN = "BOOLEAN";
+    public static final String DB_BOOLEAN = "INTEGER";
 
     public static final String ID = "_id";
     public static final String UUID = "uuid";
@@ -23,7 +23,7 @@ public class TableBuilder {
 
     private static ArrayList<String> columns;
 
-    public static String beginCreate(String tableName) {
+    protected static String begin(String tableName) {
         createString = new StringBuilder();
         columns = new ArrayList<>();
         currentTable = tableName;
@@ -49,7 +49,7 @@ public class TableBuilder {
         return tableName;
     }
 
-    public static String appendToCreate(String columnName, String type) {
+    protected static String append(String columnName, String type) {
         createString.append(columnName);
         createString.append(SPACE);
         createString.append(type);
@@ -60,7 +60,20 @@ public class TableBuilder {
         return columnName;
     }
 
-    public static String endCreate(String columnName, String type) {
+    protected static String appendWithConstraint(String columnName, String type, String constraint) {
+        createString.append(columnName);
+        createString.append(SPACE);
+        createString.append(type);
+        createString.append(SPACE);
+        createString.append(constraint);
+        createString.append(COMMA);
+
+        columns.add(columnName);
+
+        return columnName;
+    }
+
+    protected static String end(String columnName, String type) {
         createString.append(columnName);
         createString.append(SPACE);
         createString.append(type);
@@ -71,11 +84,24 @@ public class TableBuilder {
         return columnName;
     }
 
-    public static String retrieveCreateString() {
+    protected static String endWithConstraint(String columnName, String type, String constraint) {
+        createString.append(columnName);
+        createString.append(SPACE);
+        createString.append(type);
+        createString.append(SPACE);
+        createString.append(constraint);
+        createString.append(")");
+
+        columns.add(columnName);
+
+        return columnName;
+    }
+
+    protected static String retrieveCreateString() {
         return createString.toString();
     }
 
-    public static String[] retrieveAllColumnsArray() {
+    protected static String[] retrieveAllColumnsArray() {
         String[] allColumns = new String[1];
         return columns.toArray(allColumns);
     }

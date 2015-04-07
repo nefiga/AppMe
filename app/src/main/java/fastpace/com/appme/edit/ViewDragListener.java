@@ -35,7 +35,7 @@ public class ViewDragListener implements View.OnDragListener{
                 if (view instanceof Button) {
                     Action buttonAction = new ButtonAction((Button) view);
                     buttonAction.setActionChangePosition(Position.getPositionString(view.getX(), view.getY(), view.getWidth(), view.getHeight()));
-                    Edit.addAction(buttonAction);
+                    EditFragmentData.addAction(buttonAction);
                 }
                 break;
         }

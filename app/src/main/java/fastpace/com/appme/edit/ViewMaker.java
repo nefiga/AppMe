@@ -51,7 +51,7 @@ public class ViewMaker {
 
         Action buttonAction = new ButtonAction(button);
         buttonAction.setActionCreate();
-        Edit.addAction(buttonAction);
+        EditFragmentData.addAction(buttonAction);
 
         return button;
     }
@@ -70,7 +70,7 @@ public class ViewMaker {
     private EditText createEditText() {
         EditText editText = new EditText(mContext);
         editText.setLayoutParams(new LinearLayout.LayoutParams(150, 75));
-        editText.setText("Edit Text");
+        editText.setText("EditFragmentData Text");
         editText.setTextSize(30);
         editText.setId(Utils.getNextId());
         setOnLongClickListener(editText);

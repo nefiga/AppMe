@@ -1,7 +1,7 @@
 package fastpace.com.appme.edit;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +12,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
-
+import fastpace.com.appme.AppMeFragment;
 import fastpace.com.appme.R;
 import fastpace.com.appme.ViewSpinner;
-import fastpace.com.appme.model.AppMeButton;
+import fastpace.com.appme.database.AppDataLoader;
+import fastpace.com.appme.utils.AppState;
 import fastpace.com.appme.utils.Utils;
 
-public class EditFragment extends Fragment {
+public class EditFragment extends AppMeFragment {
     private final int MENU_TIMER = 5000;
 
     private boolean mBottomMenuOpen;
@@ -34,17 +34,26 @@ public class EditFragment extends Fragment {
 
     private Drawable[] mViewImages;
 
-    Edit mEdit;
+    private static EditFragmentData mEditFragmentData;
     ViewMaker mViewMaker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadData();
+
         mViewImages = new Drawable[]{getDrawable(R.drawable.button), getDrawable(R.drawable.text_view), getDrawable(R.drawable.edit_text),
                 getDrawable(R.drawable.image_view), getDrawable(R.drawable.spinner), getDrawable(R.drawable.list_view)};
         mViewMaker = new ViewMaker(getActivity());
-        mEdit = new Edit();
+    }
+
+    private void loadData() {
+        Intent intent = new Intent(getActivity(), AppDataLoader.class);
+        intent.setAction(AppDataLoader.LOAD_EDIT_DATA);
+        intent.putExtra(AppDataLoader.APP_DATA, AppState.getPrivateUuid());
+
+        getActivity().startService(intent);
     }
 
     @Override
@@ -90,7 +99,7 @@ public class EditFragment extends Fragment {
         mUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mEdit.undo();
+                mEditFragmentData.undo();
             }
         });
 
@@ -130,11 +139,16 @@ public class EditFragment extends Fragment {
         }, MENU_TIMER);
     }
 
-    public void addButtons(ArrayList<AppMeButton> buttons) {
-        //TODO need a good way to load views from database. Not really sure this is that good of a way
-    }
-
     private Drawable getDrawable(int id) {
         return getActivity().getResources().getDrawable(id);
+    }
+
+    public static void setData(EditFragmentData editFragmentData) {
+        mEditFragmentData = editFragmentData;
+    }
+
+    @Override
+    public void addButton(Button button) {
+        mAppContainer.addView(button);
     }
 }
