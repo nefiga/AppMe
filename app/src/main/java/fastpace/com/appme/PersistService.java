@@ -2,8 +2,11 @@ package fastpace.com.appme;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
+
+import java.util.ArrayList;
 
 import fastpace.com.appme.database.ButtonTable;
 import fastpace.com.appme.database.Provider;
@@ -27,9 +30,12 @@ public class PersistService extends Service {
 
     private void persistButton(Bundle extras) {
 
-        AppMeButton button = (AppMeButton) extras.get(ButtonTable.TABLE_NAME);
+        @SuppressWarnings("unchecked")
+        ArrayList<AppMeButton> buttons = (ArrayList<AppMeButton>) extras.get(ButtonTable.BUTTON_LIST);
 
-        getContentResolver().insert(Provider.BUTTON_CONTENT_URI, button.getContentValues());
+        for (AppMeButton button : buttons) {
+            getContentResolver().insert(Provider.BUTTON_CONTENT_URI, button.getContentValues());
+        }
     }
 
     @Override

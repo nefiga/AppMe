@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import fastpace.com.appme.edit.EditFragment;
-import fastpace.com.appme.edit.EditFragmentData;
+import fastpace.com.appme.LoadAppFinishedListener;
 import fastpace.com.appme.model.AppMeButton;
 import fastpace.com.appme.model.AppMeScreen;
 
@@ -17,11 +15,9 @@ public class AppDataLoader extends IntentService{
     public static final String APP_DATA = "appData";
     public static final String LOAD_EDIT_DATA = "LOAD_EDIT_DATA";
 
-    private String mMainScreen;
+    private static LoadAppFinishedListener mLoadListener;
 
-    private List<String> mScreenUuids;
-
-    private EditFragmentData mEditFragmentData;
+    private static boolean mLocked;
 
     public AppDataLoader() {
         super("AppDataLoader");
@@ -29,41 +25,64 @@ public class AppDataLoader extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        mEditFragmentData = new EditFragmentData();
         Bundle extras = intent.getExtras();
         getScreenUuids(extras.getString(APP_DATA));
+        unlock();
     }
 
-    private void getScreenUuids(String uuid) {
-        mScreenUuids = new ArrayList<>();
+    private void getScreenUuids(String appUuid) {
         Cursor cursor = getContentResolver().query(Provider.SCREEN_CONTENT_URI, new String[]{ScreenTable.MAIN_SCREEN, ScreenTable.UUID},
-                ScreenTable.PRIVATE_APP_UUID + "=?", new String[]{uuid}, null);
+                ScreenTable.PRIVATE_APP_UUID + "=?", new String[]{appUuid}, null);
         while(cursor.moveToNext()) {
             boolean isMainScreen = cursor.getInt(cursor.getColumnIndex(ScreenTable.MAIN_SCREEN)) == 1;
             if (isMainScreen) {
-                mMainScreen = cursor.getString(cursor.getColumnIndex(ScreenTable.UUID));
-                loadMainScreen();
+                String uuid = cursor.getString(cursor.getColumnIndex(ScreenTable.UUID));
+                loadScreen(new AppMeScreen(uuid, true));
             } else {
-                mScreenUuids.add(cursor.getString(cursor.getColumnIndex(ScreenTable.UUID)));
+                String uuid = cursor.getString(cursor.getColumnIndex(ScreenTable.UUID));
+                loadScreen(new AppMeScreen(uuid, false));
             }
         }
         cursor.close();
     }
 
-    private void loadMainScreen() {
-        Cursor cursor = getContentResolver().query(Provider.BUTTON_CONTENT_URI, ButtonTable.ALL_COLUMNS, ButtonTable.SCREEN_UUID + "=?", new String[] {mMainScreen}, null);
+    private void loadScreen(AppMeScreen screen) {
+        setScreenButtons(screen);
+
+        if (screen.isMainScreen())
+            mLoadListener.loadMainScreenFinished(screen);
+        else
+            mLoadListener.loadScreenFinished(screen);
+    }
+
+    private void setScreenButtons(AppMeScreen screen) {
+        Cursor cursor = getContentResolver().query(Provider.BUTTON_CONTENT_URI, ButtonTable.ALL_COLUMNS, ButtonTable.SCREEN_UUID + "=?", new String[] {screen.getUuid()}, null);
         ArrayList<AppMeButton> buttons = new ArrayList<>();
         while(cursor.moveToNext()) {
             int parent = cursor.getInt(cursor.getColumnIndex(ButtonTable.PARENT));
+            long dBId = cursor.getLong(cursor.getColumnIndex(ButtonTable.ID));
             int id = cursor.getInt(cursor.getColumnIndex(ButtonTable.ID));
             String position = cursor.getString(cursor.getColumnIndex(ButtonTable.POSITION));
-            AppMeButton button = new AppMeButton(parent, id, position);
+            AppMeButton button = new AppMeButton(parent, id, dBId, position);
             buttons.add(button);
         }
         cursor.close();
 
-        AppMeScreen mainScreen = new AppMeScreen(mMainScreen, true);
+        screen.addButtons(buttons);
+    }
 
-        mEditFragmentData.setMainScreen(mainScreen);
+    private void unlock() {
+        mLocked = false;
+    }
+
+    public static boolean getLock() {
+        if (mLocked)
+            return false;
+
+        return mLocked = true;
+    }
+
+    public static void setLoadListener(LoadAppFinishedListener loadListener) {
+        mLoadListener = loadListener;
     }
 }

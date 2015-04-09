@@ -10,6 +10,8 @@ public class EditFragmentData {
     public static final String TAG = "EditClass";
     private static final int ACTION_LIMIT = 40;
 
+    private AppMeScreen mCurrentScreen;
+
     private AppMeScreen mMainScreen;
 
     private List<AppMeScreen> screens;
@@ -21,6 +23,11 @@ public class EditFragmentData {
 
     public void setMainScreen(AppMeScreen mainScreen) {
         mMainScreen = mainScreen;
+        mCurrentScreen = mainScreen;
+    }
+
+    public void addScreen(AppMeScreen screen){
+        screens.add(screen);
     }
 
     public void undo() {
@@ -30,5 +37,9 @@ public class EditFragmentData {
     public static void addAction(Action action) {
         if (mActions.size() <= ACTION_LIMIT)
             action.setList(mActions);
+    }
+
+    public AppMeScreen getCurrentScreen() {
+        return mCurrentScreen;
     }
 }

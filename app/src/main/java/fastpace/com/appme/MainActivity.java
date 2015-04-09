@@ -13,6 +13,7 @@ import android.widget.Button;
 import fastpace.com.appme.database.Provider;
 import fastpace.com.appme.database.ScreenTable;
 import fastpace.com.appme.edit.EditFragment;
+import fastpace.com.appme.edit.EditFragmentController;
 import fastpace.com.appme.utils.Utils;
 
 
@@ -59,12 +60,16 @@ public class MainActivity extends ActionBarActivity {
         mEditScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                EditFragment fragment = new EditFragment();
-                transaction.replace(android.R.id.content, fragment);
-                transaction.commit();
+                loadEditFragment();
             }
         });
+    }
+
+    private void loadEditFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        EditFragmentController fragController = new EditFragmentController(this);
+        transaction.replace(android.R.id.content, fragController.getEditFragment());
+        transaction.commit();
     }
 }

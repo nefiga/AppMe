@@ -1,6 +1,8 @@
 package fastpace.com.appme.model;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.widget.Button;
 
 import fastpace.com.appme.database.ButtonTable;
 
@@ -10,12 +12,12 @@ public class AppMeButton extends AppMeView{
 
     private String mText;
 
-    public AppMeButton(int parent, int id, String position) {
-        super(parent, id, AppMeView.BUTTON, position);
+    public AppMeButton(int parent, int viewId, String position) {
+        super(parent, viewId, AppMeView.BUTTON, position);
     }
 
-    public AppMeButton(int parent, int id, int x, int y, int width, int height) {
-        super(parent, id, AppMeView.BUTTON, x, y, width, height);
+    public AppMeButton(int parent, int viewId, int x, int y, int width, int height) {
+        super(parent, viewId, AppMeView.BUTTON, x, y, width, height);
     }
 
     public void setDrawable(int drawable) {
@@ -24,6 +26,17 @@ public class AppMeButton extends AppMeView{
 
     public void setText(String text) {
         mText = text;
+    }
+
+    public Button getAndroidButton(Context context) {
+        Button button = new Button(context);
+        button.setX(mX);
+        button.setY(mY);
+        button.setWidth(mWidth);
+        button.setHeight(mHeight);
+        button.setId(mViewId);
+
+        return button;
     }
 
     public int getDrawable() {
@@ -39,7 +52,7 @@ public class AppMeButton extends AppMeView{
 
         //TODO Needs the apps uuid
         contentValues.put(ButtonTable.PARENT, mParent);
-        contentValues.put(ButtonTable.VIEW_ID, mId);
+        contentValues.put(ButtonTable.VIEW_ID, mViewId);
         contentValues.put(ButtonTable.VIEW_TYPE, mType);
         contentValues.put(ButtonTable.POSITION, mPosition);
 

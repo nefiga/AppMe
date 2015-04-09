@@ -42,25 +42,49 @@ public class TableBuilder {
         createString.append(SPACE);
         createString.append(COMMA);
 
-        columns.add(ID);
-        columns.add(UUID);
-        columns.add(APP_UUID);
+        columns.add(currentTable + PERIOD + ID);
+        columns.add(currentTable + PERIOD + UUID);
+        columns.add(currentTable + PERIOD + APP_UUID);
 
         return tableName;
     }
 
-    protected static String append(String columnName, String type) {
+    protected static String appendText(String columnName) {
+        return append(columnName, DB_TEXT);
+    }
+
+    protected static String appendInt(String columnName) {
+        return append(columnName, DB_INTEGER);
+    }
+
+    protected static String appendBoolean(String columnName) {
+        return append(columnName, DB_BOOLEAN);
+    }
+
+    private static String append(String columnName, String type) {
         createString.append(columnName);
         createString.append(SPACE);
         createString.append(type);
         createString.append(COMMA);
 
-        columns.add(columnName);
+        columns.add(currentTable + PERIOD + columnName);
 
         return columnName;
     }
 
-    protected static String appendWithConstraint(String columnName, String type, String constraint) {
+    protected static String appendTextWithConstraint(String columnName, String constraint) {
+        return appendWithConstraint(columnName, DB_TEXT, constraint);
+    }
+
+    protected static String appendIntWithConstraint(String columnName, String constraint) {
+        return appendWithConstraint(columnName, DB_INTEGER, constraint);
+    }
+
+    protected static String appendBooleanWithConstraint(String columnName, String constraint) {
+        return appendWithConstraint(columnName, DB_BOOLEAN, constraint);
+    }
+
+    private static String appendWithConstraint(String columnName, String type, String constraint) {
         createString.append(columnName);
         createString.append(SPACE);
         createString.append(type);
@@ -68,7 +92,7 @@ public class TableBuilder {
         createString.append(constraint);
         createString.append(COMMA);
 
-        columns.add(columnName);
+        columns.add(currentTable + PERIOD + columnName);
 
         return columnName;
     }
@@ -79,7 +103,7 @@ public class TableBuilder {
         createString.append(type);
         createString.append(")");
 
-        columns.add(columnName);
+        columns.add(currentTable + PERIOD + columnName);
 
         return columnName;
     }
@@ -92,9 +116,13 @@ public class TableBuilder {
         createString.append(constraint);
         createString.append(")");
 
-        columns.add(columnName);
+        columns.add(currentTable + PERIOD + columnName);
 
         return columnName;
+    }
+
+    protected static String retrieveDropString() {
+        return currentTable + " DROP TABLE IF EXISTS ";
     }
 
     protected static String retrieveCreateString() {

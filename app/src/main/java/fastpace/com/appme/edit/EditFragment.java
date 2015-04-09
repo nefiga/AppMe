@@ -1,7 +1,6 @@
 package fastpace.com.appme.edit;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,8 +14,7 @@ import android.widget.Spinner;
 import fastpace.com.appme.AppMeFragment;
 import fastpace.com.appme.R;
 import fastpace.com.appme.ViewSpinner;
-import fastpace.com.appme.database.AppDataLoader;
-import fastpace.com.appme.utils.AppState;
+import fastpace.com.appme.model.AppMeScreen;
 import fastpace.com.appme.utils.Utils;
 
 public class EditFragment extends AppMeFragment {
@@ -34,26 +32,16 @@ public class EditFragment extends AppMeFragment {
 
     private Drawable[] mViewImages;
 
-    private static EditFragmentData mEditFragmentData;
+    private EditFragmentController mFragController;
     ViewMaker mViewMaker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadData();
-
         mViewImages = new Drawable[]{getDrawable(R.drawable.button), getDrawable(R.drawable.text_view), getDrawable(R.drawable.edit_text),
                 getDrawable(R.drawable.image_view), getDrawable(R.drawable.spinner), getDrawable(R.drawable.list_view)};
         mViewMaker = new ViewMaker(getActivity());
-    }
-
-    private void loadData() {
-        Intent intent = new Intent(getActivity(), AppDataLoader.class);
-        intent.setAction(AppDataLoader.LOAD_EDIT_DATA);
-        intent.putExtra(AppDataLoader.APP_DATA, AppState.getPrivateUuid());
-
-        getActivity().startService(intent);
     }
 
     @Override
@@ -99,7 +87,7 @@ public class EditFragment extends AppMeFragment {
         mUndo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mEditFragmentData.undo();
+                mFragController.undo();
             }
         });
 
@@ -118,6 +106,7 @@ public class EditFragment extends AppMeFragment {
             transaction.setCustomAnimations(R.animator.slide_in_bottom, R.animator.slide_out_bottom);
             transaction.add(android.R.id.content, mBottomActionBar).commit();
             mBottomMenuOpen = true;
+
             CloseMenuDelay();
         } else {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -143,12 +132,17 @@ public class EditFragment extends AppMeFragment {
         return getActivity().getResources().getDrawable(id);
     }
 
-    public static void setData(EditFragmentData editFragmentData) {
-        mEditFragmentData = editFragmentData;
+    public void setFragController(EditFragmentController controller) {
+        mFragController = controller;
     }
 
     @Override
     public void addButton(Button button) {
         mAppContainer.addView(button);
+    }
+
+    @Override
+    public void loadScreen(AppMeScreen screen) {
+
     }
 }

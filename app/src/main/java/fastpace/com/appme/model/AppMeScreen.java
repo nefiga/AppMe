@@ -2,8 +2,6 @@ package fastpace.com.appme.model;
 
 import java.util.ArrayList;
 
-import fastpace.com.appme.edit.EditFragment;
-
 public class AppMeScreen {
     private final boolean mMainScreen;
 
@@ -16,12 +14,20 @@ public class AppMeScreen {
         mMainScreen = mainScreen;
     }
 
+    public boolean isMainScreen() {
+        return mMainScreen;
+    }
+
     public boolean isMatch(String uuid) {
         return mUuid.equals(uuid);
     }
 
-    public void loadViews(EditFragment fragment) {
+    public String getUuid() {
+        return mUuid;
+    }
 
+    public ArrayList<AppMeButton> getButtons() {
+        return mButtons;
     }
 
     public void addButtons(ArrayList<AppMeButton> buttons) {
