@@ -14,5 +14,7 @@ public class IntentLauncher {
     public static void saveButtons(Context context, ArrayList<AppMeButton> buttons) {
         Intent intent = new Intent(context, PersistService.class);
         intent.putExtra(ButtonTable.TABLE_NAME, buttons);
+
+        context.startService(intent);
     }
 }

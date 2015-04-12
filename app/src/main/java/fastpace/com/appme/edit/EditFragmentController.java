@@ -28,6 +28,10 @@ public class EditFragmentController implements LoadAppFinishedListener {
         loadData();
     }
 
+    public void saveButtons() {
+        IntentLauncher.saveButtons(mContext, mEditFragmentData.getCurrentScreen().getButtons());
+    }
+
     private void loadData() {
         if (AppDataLoader.getLock()) {
             Intent intent = new Intent(mContext, AppDataLoader.class);

@@ -50,7 +50,6 @@ public class AppMeButton extends AppMeView{
     public ContentValues getContentValues() {
         ContentValues contentValues = new ContentValues();
 
-        //TODO Needs the apps uuid
         contentValues.put(ButtonTable.PARENT, mParent);
         contentValues.put(ButtonTable.VIEW_ID, mViewId);
         contentValues.put(ButtonTable.VIEW_TYPE, mType);

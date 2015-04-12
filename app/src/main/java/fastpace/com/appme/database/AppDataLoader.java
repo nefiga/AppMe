@@ -63,7 +63,7 @@ public class AppDataLoader extends IntentService{
             long dBId = cursor.getLong(cursor.getColumnIndex(ButtonTable.ID));
             int id = cursor.getInt(cursor.getColumnIndex(ButtonTable.ID));
             String position = cursor.getString(cursor.getColumnIndex(ButtonTable.POSITION));
-            AppMeButton button = new AppMeButton(parent, id, dBId, position);
+            AppMeButton button = new AppMeButton(parent, id, position);
             buttons.add(button);
         }
         cursor.close();

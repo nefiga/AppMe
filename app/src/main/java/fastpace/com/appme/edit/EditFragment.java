@@ -73,7 +73,12 @@ public class EditFragment extends AppMeFragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragController.saveButtons();
     }
 
     public void setListeners() {

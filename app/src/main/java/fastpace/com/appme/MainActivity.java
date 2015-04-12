@@ -2,7 +2,6 @@ package fastpace.com.appme;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,11 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import fastpace.com.appme.database.Provider;
-import fastpace.com.appme.database.ScreenTable;
-import fastpace.com.appme.edit.EditFragment;
 import fastpace.com.appme.edit.EditFragmentController;
-import fastpace.com.appme.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity {
