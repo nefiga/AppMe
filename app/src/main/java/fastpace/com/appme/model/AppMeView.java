@@ -1,8 +1,9 @@
 package fastpace.com.appme.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class AppMeView implements Serializable {
+public class AppMeView implements Parcelable {
 
     public static final int BUTTON = 0;
     public static final int TEXT_VIEW = 1;
@@ -16,46 +17,29 @@ public class AppMeView implements Serializable {
     protected int mViewId;
     protected int mType;
     protected int mParent;
-    protected int mX;
-    protected int mY;
-    protected int mWidth;
-    protected int mHeight;
 
-    protected String mPosition;
+    protected Position mPosition;
 
-    public AppMeView(int parent, int viewId, int type, String position) {
+    public AppMeView(int parent, int viewId, int type, Position position) {
         mParent = parent;
         mViewId = viewId;
         mType = type;
-        setPosition(position);
-    }
-
-    public AppMeView(int parent, int viewId, int type, int x, int y, int width, int height) {
-        mParent = parent;
-        mViewId = viewId;
-        mType = type;
-        setPosition(x, y, width, height);
-    }
-
-    public void setPosition(String position) {
         mPosition = position;
-        String[] data = position.split(",");
-        mX = Integer.valueOf(data[0]);
-        mY = Integer.valueOf(data[1]);
-        mWidth = Integer.valueOf(data[2]);
-        mHeight = Integer.valueOf(data[3]);
     }
 
-    public void setPosition(int x, int y, int width, int height) {
-        String posistion = "";
-        posistion += x + "," + y + "," + width + "," + height;
-        mX = x;
-        mY = y;
-        mWidth = width;
-        mHeight = height;
+    public AppMeView(Parcel parcel) {
+        readFromParcel(parcel);
     }
 
-    public String getPosition() {
+    public void setPosition(Position position) {
+        mPosition = position;
+    }
+
+    public void setPosition(float x, float y, int width, int height) {
+        mPosition = new Position(x, y, width, height);
+    }
+
+    public Position getPosition() {
         return mPosition;
     }
 
@@ -71,19 +55,49 @@ public class AppMeView implements Serializable {
         return mType;
     }
 
-    public int getX() {
-        return mX;
+    public float getX() {
+        return mPosition.getX();
     }
 
-    public int getY() {
-        return mY;
+    public float getY() {
+        return mPosition.getY();
     }
 
     public int getmWidth() {
-        return mWidth;
+        return mPosition.getWidth();
     }
 
     public int getHeight() {
-        return mHeight;
+        return mPosition.getHeight();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(mViewId);
+        parcel.writeInt(mType);
+        parcel.writeInt(mParent);
+        parcel.writeParcelable(mPosition, flags);
+    }
+
+    protected void readFromParcel(Parcel parcel) {
+        mViewId = parcel.readInt();
+        mType = parcel.readInt();
+        mParent = parcel.readInt();
+        mPosition = parcel.readParcelable(Position.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public AppMeView createFromParcel(Parcel parcel) {
+            return new AppMeView(parcel);
+        }
+
+        public AppMeView[] newArray(int size) {
+            return new AppMeView[size];
+        }
+    };
 }

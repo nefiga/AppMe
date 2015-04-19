@@ -7,13 +7,16 @@ import java.util.ArrayList;
 
 import fastpace.com.appme.PersistService;
 import fastpace.com.appme.database.ButtonTable;
+import fastpace.com.appme.database.ScreenTable;
 import fastpace.com.appme.model.AppMeButton;
+import fastpace.com.appme.model.AppMeScreen;
 
 public class IntentLauncher {
 
-    public static void saveButtons(Context context, ArrayList<AppMeButton> buttons) {
+    public static void saveScreen(Context context, AppMeScreen screen) {
         Intent intent = new Intent(context, PersistService.class);
-        intent.putExtra(ButtonTable.TABLE_NAME, buttons);
+        intent.setAction(PersistService.PERSIST_SCREEN);
+        intent.putExtra(ScreenTable.TABLE_NAME, screen);
 
         context.startService(intent);
     }

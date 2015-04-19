@@ -17,6 +17,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ButtonTable.CREATE);
+        db.execSQL(ScreenTable.CREATE);
     }
 
     @Override

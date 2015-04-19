@@ -2,22 +2,23 @@ package fastpace.com.appme.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.os.Parcel;
 import android.widget.Button;
 
 import fastpace.com.appme.database.ButtonTable;
 
-public class AppMeButton extends AppMeView{
+public class AppMeButton extends AppMeView {
 
     private int mDrawable;
 
     private String mText;
 
-    public AppMeButton(int parent, int viewId, String position) {
+    public AppMeButton(int parent, int viewId, Position position) {
         super(parent, viewId, AppMeView.BUTTON, position);
     }
 
-    public AppMeButton(int parent, int viewId, int x, int y, int width, int height) {
-        super(parent, viewId, AppMeView.BUTTON, x, y, width, height);
+    public AppMeButton(int parent, Button button) {
+        super(parent, button.getId(), AppMeView.BUTTON, new Position(button.getX(), button.getY(), button.getWidth(), button.getHeight()));
     }
 
     public void setDrawable(int drawable) {
@@ -30,10 +31,10 @@ public class AppMeButton extends AppMeView{
 
     public Button getAndroidButton(Context context) {
         Button button = new Button(context);
-        button.setX(mX);
-        button.setY(mY);
-        button.setWidth(mWidth);
-        button.setHeight(mHeight);
+        button.setX(mPosition.getX());
+        button.setY(mPosition.getY());
+        button.setWidth(mPosition.getWidth());
+        button.setHeight(mPosition.getHeight());
         button.setId(mViewId);
 
         return button;
@@ -53,7 +54,7 @@ public class AppMeButton extends AppMeView{
         contentValues.put(ButtonTable.PARENT, mParent);
         contentValues.put(ButtonTable.VIEW_ID, mViewId);
         contentValues.put(ButtonTable.VIEW_TYPE, mType);
-        contentValues.put(ButtonTable.POSITION, mPosition);
+        contentValues.put(ButtonTable.POSITION, mPosition.getPositionString());
 
         if (mDrawable != NULL_VALUE)
             contentValues.put(ButtonTable.DRAWABLE, mDrawable);
@@ -61,5 +62,19 @@ public class AppMeButton extends AppMeView{
             contentValues.put(ButtonTable.TEXT, mText);
 
         return contentValues;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        super.writeToParcel(parcel, flags);
+        parcel.writeInt(mDrawable);
+        parcel.writeString(mText);
+    }
+
+    @Override
+    protected void readFromParcel(Parcel parcel) {
+        super.readFromParcel(parcel);
+        mDrawable = parcel.readInt();
+        mText = parcel.readString();
     }
 }

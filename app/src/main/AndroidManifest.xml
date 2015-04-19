@@ -23,6 +23,11 @@
             android:name=".database.Provider"
             android:authorities="fastpace.com.appme.database.Provider" >
         </provider>
+
+        <service android:name=".database.AppDataLoader"
+            android:exported="false"/>
+        <service android:name=".PersistService"
+            android:exported="false"/>
     </application>
 
 </manifest>

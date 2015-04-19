@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import fastpace.com.appme.AppMeFragment;
 import fastpace.com.appme.R;
 import fastpace.com.appme.ViewSpinner;
 import fastpace.com.appme.model.AppMeScreen;
+import fastpace.com.appme.model.AppMeView;
+import fastpace.com.appme.model.Position;
 import fastpace.com.appme.utils.Utils;
 
 public class EditFragment extends AppMeFragment {
@@ -27,13 +30,13 @@ public class EditFragment extends AppMeFragment {
     private Spinner mViewSpinner;
     private Button mAddView;
     private Button mUndo;
+    private Button mSave;
 
     private LinearLayout mAppContainer;
 
     private Drawable[] mViewImages;
 
     private EditFragmentController mFragController;
-    ViewMaker mViewMaker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class EditFragment extends AppMeFragment {
 
         mViewImages = new Drawable[]{getDrawable(R.drawable.button), getDrawable(R.drawable.text_view), getDrawable(R.drawable.edit_text),
                 getDrawable(R.drawable.image_view), getDrawable(R.drawable.spinner), getDrawable(R.drawable.list_view)};
-        mViewMaker = new ViewMaker(getActivity());
+
     }
 
     @Override
@@ -58,6 +61,7 @@ public class EditFragment extends AppMeFragment {
         mViewSpinner = (Spinner) mRootView.findViewById(R.id.view_spinner);
         mAddView = (Button) mRootView.findViewById(R.id.add_view);
         mUndo = (Button) mRootView.findViewById(R.id.undo);
+        mSave = (Button) mRootView.findViewById(R.id.save);
 
         mAppContainer = (LinearLayout) mRootView.findViewById(R.id.app_container);
         mAppContainer.setId(Utils.VIEW_HOLDER_ID);
@@ -78,14 +82,14 @@ public class EditFragment extends AppMeFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mFragController.saveButtons();
+        mFragController.save();
     }
 
     public void setListeners() {
         mAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAppContainer.addView(mViewMaker.createView(mViewSpinner.getSelectedItemPosition()));
+                mAppContainer.addView(mFragController.addView(mViewSpinner.getSelectedItemPosition()));
             }
         });
 
@@ -93,6 +97,13 @@ public class EditFragment extends AppMeFragment {
             @Override
             public void onClick(View v) {
                 mFragController.undo();
+            }
+        });
+
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFragController.save();
             }
         });
 

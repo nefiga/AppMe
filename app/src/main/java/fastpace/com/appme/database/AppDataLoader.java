@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import fastpace.com.appme.LoadAppFinishedListener;
 import fastpace.com.appme.model.AppMeButton;
 import fastpace.com.appme.model.AppMeScreen;
+import fastpace.com.appme.model.Position;
 
 public class AppDataLoader extends IntentService{
     public static final String APP_DATA = "appData";
@@ -26,11 +27,11 @@ public class AppDataLoader extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
-        getScreenUuids(extras.getString(APP_DATA));
+        loadScreens(extras.getString(APP_DATA));
         unlock();
     }
 
-    private void getScreenUuids(String appUuid) {
+    private void loadScreens(String appUuid) {
         Cursor cursor = getContentResolver().query(Provider.SCREEN_CONTENT_URI, new String[]{ScreenTable.MAIN_SCREEN, ScreenTable.UUID},
                 ScreenTable.PRIVATE_APP_UUID + "=?", new String[]{appUuid}, null);
         while(cursor.moveToNext()) {
@@ -60,10 +61,9 @@ public class AppDataLoader extends IntentService{
         ArrayList<AppMeButton> buttons = new ArrayList<>();
         while(cursor.moveToNext()) {
             int parent = cursor.getInt(cursor.getColumnIndex(ButtonTable.PARENT));
-            long dBId = cursor.getLong(cursor.getColumnIndex(ButtonTable.ID));
-            int id = cursor.getInt(cursor.getColumnIndex(ButtonTable.ID));
+            int id = cursor.getInt(cursor.getColumnIndex(ButtonTable.VIEW_ID));
             String position = cursor.getString(cursor.getColumnIndex(ButtonTable.POSITION));
-            AppMeButton button = new AppMeButton(parent, id, position);
+            AppMeButton button = new AppMeButton(parent, id, new Position(position));
             buttons.add(button);
         }
         cursor.close();

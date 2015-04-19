@@ -1,6 +1,9 @@
 package fastpace.com.appme.model;
 
-public class Position {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Position implements Parcelable {
 
     private final int POSITION_X = 0, POSITION_Y = 1, POSITION_WIDTH = 2, POSITION_HEIGHT = 3;
 
@@ -27,6 +30,10 @@ public class Position {
         mHeight = height;
         mPosition = getPositionString(x, y, width, height);
     }
+
+    public Position(Parcel parcel) {
+        readFromParcel(parcel);
+    }
     
     public float getX() {
         return mX;
@@ -51,4 +58,37 @@ public class Position {
     public static String getPositionString(float x, float y, int width, int height) {
         return  x + "," + y + "," + width + "," + height;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeFloat(mX);
+        parcel.writeFloat(mY);
+        parcel.writeInt(mWidth);
+        parcel.writeInt(mHeight);
+        parcel.writeString(mPosition);
+    }
+
+    private void readFromParcel(Parcel parcel) {
+        mX = parcel.readFloat();
+        mY = parcel.readFloat();
+        mWidth = parcel.readInt();
+        mHeight = parcel.readInt();
+        mPosition = parcel.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR =
+            new Parcelable.Creator() {
+                public Position createFromParcel(Parcel parcel) {
+                    return new Position(parcel);
+                }
+
+                public Position[] newArray(int size) {
+                    return new Position[size];
+                }
+            };
 }

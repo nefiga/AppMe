@@ -53,6 +53,7 @@ public class ViewMaker {
         buttonAction.setActionCreate();
         EditFragmentData.addAction(buttonAction);
 
+        button.setTag(AppMeView.BUTTON);
         return button;
     }
 
