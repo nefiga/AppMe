@@ -14,9 +14,11 @@ public class AppMeView implements Parcelable {
 
     public static final int NULL_VALUE = 0;
 
+    protected int mDbId;
     protected int mViewId;
     protected int mType;
     protected int mParent;
+    protected String mScreenUuid;
 
     protected Position mPosition;
 
@@ -27,16 +29,20 @@ public class AppMeView implements Parcelable {
         mPosition = position;
     }
 
-    public AppMeView(Parcel parcel) {
-        readFromParcel(parcel);
-    }
-
     public void setPosition(Position position) {
         mPosition = position;
     }
 
     public void setPosition(float x, float y, int width, int height) {
         mPosition = new Position(x, y, width, height);
+    }
+
+    public void setDbId(int dbId) {
+        mDbId = dbId;
+    }
+
+    public void setScreenUuid(String screenUuid) {
+        mScreenUuid = screenUuid;
     }
 
     public Position getPosition() {
@@ -47,12 +53,20 @@ public class AppMeView implements Parcelable {
         return mParent;
     }
 
+    public int getDbId() {
+        return mDbId;
+    }
+
     public int getId() {
         return mViewId;
     }
 
     public int getType() {
         return mType;
+    }
+
+    public String getScreenUuid() {
+        return mScreenUuid;
     }
 
     public float getX() {
@@ -71,6 +85,12 @@ public class AppMeView implements Parcelable {
         return mPosition.getHeight();
     }
 
+    //------- Parcel Methods --------
+
+    public AppMeView(Parcel parcel) {
+        readFromParcel(parcel);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -78,16 +98,20 @@ public class AppMeView implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(mDbId);
         parcel.writeInt(mViewId);
         parcel.writeInt(mType);
         parcel.writeInt(mParent);
+        parcel.writeString(mScreenUuid);
         parcel.writeParcelable(mPosition, flags);
     }
 
     protected void readFromParcel(Parcel parcel) {
+        mDbId = parcel.readInt();
         mViewId = parcel.readInt();
         mType = parcel.readInt();
         mParent = parcel.readInt();
+        mScreenUuid = parcel.readString();
         mPosition = parcel.readParcelable(Position.class.getClassLoader());
     }
 

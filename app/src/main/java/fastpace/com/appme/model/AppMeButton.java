@@ -3,6 +3,7 @@ package fastpace.com.appme.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Button;
 
 import fastpace.com.appme.database.ButtonTable;
@@ -64,6 +65,12 @@ public class AppMeButton extends AppMeView {
         return contentValues;
     }
 
+    //-------Parcel Methods---------
+
+    public AppMeButton(Parcel parcel) {
+        super(parcel);
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         super.writeToParcel(parcel, flags);
@@ -77,4 +84,14 @@ public class AppMeButton extends AppMeView {
         mDrawable = parcel.readInt();
         mText = parcel.readString();
     }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public AppMeButton createFromParcel(Parcel parcel) {
+            return new AppMeButton(parcel);
+        }
+
+        public AppMeButton[] newArray(int size) {
+            return new AppMeButton[size];
+        }
+    };
 }

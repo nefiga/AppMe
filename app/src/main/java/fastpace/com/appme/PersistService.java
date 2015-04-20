@@ -32,8 +32,14 @@ public class PersistService extends Service {
     }
 
     private void persistScreen(Bundle extras) {
-        AppMeScreen screen = (AppMeScreen) extras.get(ScreenTable.TABLE_NAME);
-        String uuid = screen.getUuid();
+        AppMeScreen screen = (AppMeScreen) extras.getParcelable(ScreenTable.TABLE_NAME);
+        persistButton(screen.getButtons());
+    }
+
+    private void persistButton(ArrayList<AppMeButton> buttons) {
+        for (AppMeButton button : buttons) {
+
+        }
     }
 
     @Override

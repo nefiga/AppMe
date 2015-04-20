@@ -10,6 +10,8 @@ public class AppMeScreen implements Parcelable {
     private boolean mMainScreen;
     private boolean mChanged;
 
+    private int mDbId;
+
     private String mUuid;
 
     private ArrayList<AppMeButton> mButtons;
@@ -17,10 +19,6 @@ public class AppMeScreen implements Parcelable {
     public AppMeScreen(String uuid, boolean mainScreen) {
         mUuid = uuid;
         mMainScreen = mainScreen;
-    }
-
-    public AppMeScreen(Parcel parcel) {
-        readFromParcel(parcel);
     }
 
     public void addButtons(ArrayList<AppMeButton> buttons) {
@@ -31,8 +29,13 @@ public class AppMeScreen implements Parcelable {
         if (mButtons == null)
             mButtons = new ArrayList<>();
 
+        button.setScreenUuid(mUuid);
         mButtons.add(button);
         mChanged = true;
+    }
+
+    public void setDbId(int dbId) {
+        mDbId = dbId;
     }
 
     public boolean isMainScreen() {
@@ -45,6 +48,10 @@ public class AppMeScreen implements Parcelable {
 
     public boolean isMatch(String uuid) {
         return mUuid.equals(uuid);
+    }
+
+    public int getDbId() {
+        return mDbId;
     }
 
     public String getUuid() {
@@ -63,6 +70,12 @@ public class AppMeScreen implements Parcelable {
         AppMeButton[] buttons = new AppMeButton[size];
         parcel.readTypedArray(buttons, AppMeButton.CREATOR);
         return new ArrayList<>(Arrays.asList(buttons));
+    }
+
+    //------Parcel Methods------
+
+    public AppMeScreen(Parcel parcel) {
+        readFromParcel(parcel);
     }
 
     @Override
