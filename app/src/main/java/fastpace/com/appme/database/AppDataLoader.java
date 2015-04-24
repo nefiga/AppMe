@@ -33,7 +33,7 @@ public class AppDataLoader extends IntentService{
 
     private void loadScreens(String appUuid) {
         Cursor cursor = getContentResolver().query(Provider.SCREEN_CONTENT_URI, new String[]{ScreenTable.MAIN_SCREEN, ScreenTable.UUID},
-                ScreenTable.PRIVATE_APP_UUID + "=?", new String[]{appUuid}, null);
+                ScreenTable.EDIT_APP_UUID + "=?", new String[]{appUuid}, null);
         while(cursor.moveToNext()) {
             boolean isMainScreen = cursor.getInt(cursor.getColumnIndex(ScreenTable.MAIN_SCREEN)) == 1;
             if (isMainScreen) {

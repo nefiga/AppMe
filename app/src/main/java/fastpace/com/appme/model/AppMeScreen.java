@@ -12,6 +12,7 @@ public class AppMeScreen implements Parcelable {
 
     private int mDbId;
 
+    private String mAppUuid;
     private String mUuid;
 
     private ArrayList<AppMeButton> mButtons;
@@ -38,6 +39,10 @@ public class AppMeScreen implements Parcelable {
         mDbId = dbId;
     }
 
+    public void setAppUuid(String appUuid) {
+        mAppUuid = appUuid;
+    }
+
     public boolean isMainScreen() {
         return mMainScreen;
     }
@@ -52,6 +57,10 @@ public class AppMeScreen implements Parcelable {
 
     public int getDbId() {
         return mDbId;
+    }
+
+    public String getAppUuid() {
+        return mAppUuid;
     }
 
     public String getUuid() {
