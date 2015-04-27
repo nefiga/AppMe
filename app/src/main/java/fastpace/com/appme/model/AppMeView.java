@@ -49,6 +49,10 @@ public class AppMeView implements Parcelable {
         return mPosition;
     }
 
+    public String getPositionString() {
+        return mPosition.getPositionString();
+    }
+
     public int getParent() {
         return mParent;
     }
@@ -57,7 +61,7 @@ public class AppMeView implements Parcelable {
         return mDbId;
     }
 
-    public int getId() {
+    public int getViewId() {
         return mViewId;
     }
 

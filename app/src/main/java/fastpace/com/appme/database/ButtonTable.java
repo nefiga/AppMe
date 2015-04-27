@@ -11,8 +11,6 @@ public class ButtonTable extends TableBuilder {
     public static final String DRAWABLE = appendInt("drawable");
     public static final String TEXT = end("text", DB_TEXT);
 
-    public static final String BUTTON_LIST = "buttonList";
-
     public static final String[] ALL_COLUMNS = retrieveAllColumnsArray();
 
     public static String CREATE = retrieveCreateString();

@@ -10,7 +10,7 @@ public class AppMeScreen implements Parcelable {
     private boolean mMainScreen;
     private boolean mChanged;
 
-    private int mDbId;
+    private long mDbId;
 
     private String mAppUuid;
     private String mUuid;
@@ -35,7 +35,7 @@ public class AppMeScreen implements Parcelable {
         mChanged = true;
     }
 
-    public void setDbId(int dbId) {
+    public void setDbId(long dbId) {
         mDbId = dbId;
     }
 
@@ -55,7 +55,7 @@ public class AppMeScreen implements Parcelable {
         return mUuid.equals(uuid);
     }
 
-    public int getDbId() {
+    public long getDbId() {
         return mDbId;
     }
 
@@ -94,6 +94,7 @@ public class AppMeScreen implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeLong(mDbId);
         parcel.writeInt(mMainScreen ? 1 : 0);
         parcel.writeString(mUuid);
         parcel.writeInt(mButtons.size());
@@ -101,6 +102,7 @@ public class AppMeScreen implements Parcelable {
     }
 
     protected void readFromParcel(Parcel parcel) {
+        mDbId = parcel.readLong();
         mMainScreen = parcel.readInt() == 1;
         mUuid = parcel.readString();
         mButtons = getButtonArrayList(parcel.readInt(), parcel);
